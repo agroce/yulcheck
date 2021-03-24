@@ -46,8 +46,17 @@ for f in glob.glob(sys.argv[1]):
         with open("noptout.txt",'w') as noptf:
             r = subprocess.call(["/root/solidity/build/solc/solc --strict-assembly opttest.yul"], shell=True, stdout=noptf, stderr=noptf)
         if r != 0:
-            print(f, "DID NOT COMPILE UNOPTIMIZED:")
-            printFile("opttest.yul")
+            stackProblem = False
+            with open("noptout.txt", 'r') as noptf:
+                for line in noptf:
+                    if ("deep inside the stack" in line) or ("too many to fit the stack size") in line:
+                        stackProblem = True
+            if not stackProblem:
+                print(f, "DID NOT COMPILE UNOPTIMIZED:")
+                printFile("opttest.yul")
+            else:
+                print("SKIPPING BECAUSE OF STACK SIZE ISSUES")
+            continue
         with open("opttest.yul", 'r') as foof:
             skip = False
             for line in foof:
