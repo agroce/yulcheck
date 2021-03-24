@@ -46,8 +46,8 @@ for f in glob.glob(sys.argv[1]):
         with open("opttest.yul", 'r') as foof:
             skip = False
             for line in foof:
-                if "linkersymbol" in line:
-                    print("linkersymbol in Yul, skipping yulrun")
+                if ("linkersymbol" in line) or ("memoryguard" in line) or ("loadimmutable" in line):
+                    print("unsupported feature in Yul, skipping yulrun check")
                     skip = True
                     break
             if skip:
