@@ -49,13 +49,13 @@ for f in glob.glob(sys.argv[1]):
             stackProblem = False
             with open("noptout.txt", 'r') as noptf:
                 for line in noptf:
-                    if ("deep inside the stack" in line) or ("too many to fit the stack size") in line:
+                    if ("deep inside the stack" in line) or ("too many to fit the stack size") in line or ("Leftover immutables" in line):
                         stackProblem = True
             if not stackProblem:
                 print(f, "DID NOT COMPILE UNOPTIMIZED:")
                 printFile("opttest.yul")
             else:
-                print("SKIPPING BECAUSE OF STACK SIZE ISSUES")
+                print("SKIPPING BECAUSE OF STACK SIZE ISSUES OR IMMUTABLES")
             continue
         with open("opttest.yul", 'r') as foof:
             skip = False
