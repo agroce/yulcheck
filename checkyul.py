@@ -14,7 +14,7 @@ total = 0.0
 def printFile(f):
     with open(f) as ff:
         for line in ff:
-            print(ff,end="")
+            print(line,end="")
 
 def output_to_file(outfn, objfn):
     with open(outfn, 'r') as outf:
