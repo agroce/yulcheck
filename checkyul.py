@@ -43,6 +43,11 @@ for f in glob.glob(sys.argv[1]):
     if r == 0:
         compiled += 1
         print(f, "COMPILED; NOW UP TO", compiled, "COMPILED,", str(round((compiled/total)*100,2))+"%")
+        with open("noptout.txt",'w') as noptf:
+            r = subprocess.call(["/root/solidity/build/solc/solc --strict-assembly opttest.yul"], shell=True, stdout=noptf, stderr=noptf)
+        if r != 0:
+            print(f, "DID NOT COMPILE UNOPTIMIZED:")
+            printFile("opttest.yul")
         with open("opttest.yul", 'r') as foof:
             skip = False
             for line in foof:
@@ -52,8 +57,6 @@ for f in glob.glob(sys.argv[1]):
                     break
             if skip:
                 continue
-        with open("noptout.txt",'w') as noptf:
-            r = subprocess.call(["/root/solidity/build/solc/solc --strict-assembly opttest.yul"], shell=True, stdout=noptf, stderr=noptf)
         output_to_file("optout.txt", "topt")
         output_to_file("noptout.txt", "t")
         print("RUNNING OPTIMIZED...", end="")
