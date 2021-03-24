@@ -58,10 +58,10 @@ for f in glob.glob(sys.argv[1]):
         output_to_file("noptout.txt", "t")
         print("RUNNING OPTIMIZED...", end="")
         with open("yulrunopt.txt", 'w') as yulrunoptf:
-            r = subprocess.call(["ulimit -t 10; /root/solidity/build/test/tools/yulrun --input-file topt"], shell=True, stdout=yulrunoptf, stderr=yulrunoptf)
+            r = subprocess.call(["ulimit -t 3; /root/solidity/build/test/tools/yulrun --input-file topt"], shell=True, stdout=yulrunoptf, stderr=yulrunoptf)
         print("RUNNING UN-OPTIMIZED...",end="")
         with open("yulrun.txt", 'w') as yulrunf:
-            r = subprocess.call(["ulimit -t 10; /root/solidity/build/test/tools/yulrun --input-file t"], shell=True, stdout=yulrunf, stderr=yulrunf)
+            r = subprocess.call(["ulimit -t 3; /root/solidity/build/test/tools/yulrun --input-file t"], shell=True, stdout=yulrunf, stderr=yulrunf)
         with open(os.devnull, 'w') as dnull:
             r = subprocess.call(["diff", "yulrunopt.txt", "yulrun.txt"], stdout=dnull, stderr=dnull)
         if (r != 0):
