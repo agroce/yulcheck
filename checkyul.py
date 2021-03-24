@@ -10,6 +10,11 @@ compiled = 0
 failed = 0
 total = 0.0
 
+def printFile(f):
+    with open(f) as ff:
+        for line in ff:
+            print(ff,end="")
+
 def output_to_file(outfn, objfn):
     with open(outfn, 'r') as outf:
         with open(objfn, 'w') as objf:
@@ -56,7 +61,8 @@ for f in glob.glob(sys.argv[1]):
         print("RUNNING UN-OPTIMIZED...",end="")
         with open("yulrun.txt", 'w') as yulrunf:
             r = subprocess.call(["ulimit -t 10; /root/solidity/build/test/tools/yulrun --input-file t"], shell=True, stdout=yulrunf, stderr=yulrunf)
-        r = subprocess.call(["diff", "yulrunopt.txt", "yulrun.txt"])
+        with open(os.devnull, 'w') as dnull:
+            r = subprocess.call(["diff", "yulrunopt.txt", "yulrun.txt"], stdout=dnull, stderr=dnull)
         if (r != 0):
             with open("yulrun.txt", 'r') as yulrunf:
                 skip = False
@@ -71,15 +77,20 @@ for f in glob.glob(sys.argv[1]):
             print("="*80)
             print("POSSIBLE OPTIMIZER BUG:\n")
             print("opttest.yul:")
-            subprocess.call(["cat opttest.yul"], shell=True)
+            printFile("opttest.yul")
+            #subprocess.call(["cat opttest.yul"], shell=True)
             print("\noptimized yul:")
-            subprocess.call(["cat topt"], shell=True)
+            printFile("topt")
+            #subprocess.call(["cat topt"], shell=True)
             print("\noptimized trace:")
-            subprocess.call(["cat yulrunopt.txt"], shell=True)
+            printFile("yulrunopt.txt")
+            #subprocess.call(["cat yulrunopt.txt"], shell=True)
             print("\nun-optimized yul:")
-            subprocess.call(["cat t"], shell=True)
+            printFile("t")
+            #subprocess.call(["cat t"], shell=True)
             print("\nun-optimized trace:")
-            subprocess.call(["cat yulrun.txt"], shell=True)            
+            printFile("yulrun.txt")
+            #subprocess.call(["cat yulrun.txt"], shell=True)
             print("="*80)
         print("DONE CHECKING")
         
