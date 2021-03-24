@@ -3,6 +3,7 @@ import sys
 import subprocess
 import glob
 import shutil
+import os
 
 #diff $(solc --strict-assembly --optimize $INPUT_YUL 2>&1| awk '/object/,/^}$/' > topt; yulrun --input-file topt > topt.trace; echo "topt.trace") $(solc --strict-assembly $INPUT_YUL 2>&1 | awk '/object/,/^}$/' > t; yulrun --input-file t > t.trace; echo "t.trace")
 
