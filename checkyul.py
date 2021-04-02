@@ -28,7 +28,7 @@ def output_to_file(outfn, objfn):
                     if line[0] == "}":
                         object = False
 
-for f in glob.glob(sys.argv[1]):
+for f in glob.glob(sys.argv[1] + "/queue/id*"):
     if "orig" in f:
         continue
     total += 1
